@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+
 @Entity
 @Table(name = "payments")
 @Data
@@ -23,9 +24,9 @@ public class Payments {
 
     private String razorpayOrderId;
 
-    private String getRazorpayPaymentId;
+    private String razorpayPaymentId;
 
-    private String getRazorpaySignature;
+    private String razorpaySignature;
 
     @CreationTimestamp
     @Column(updatable = false)

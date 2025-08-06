@@ -1,11 +1,12 @@
 package com.scaleorange.LaptopRentals.controller.payments;
 
-import com.razorpay.Order;
+
 import com.razorpay.RazorpayException;
-import com.scaleorange.LaptopRentals.dto.payments.RazorpayOrderResponse;
-import com.scaleorange.LaptopRentals.dto.payments.RazorpayRequest;
+import com.scaleorange.LaptopRentals.dto.payments.PaymentRequest;
+
+import com.scaleorange.LaptopRentals.dto.payments.RazorpayResponse;
+import com.scaleorange.LaptopRentals.entity.Payments;
 import com.scaleorange.LaptopRentals.service.payments.PaymentsService;
-import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,12 @@ public class PaymentsController {
     @Autowired
     private PaymentsService paymentsService;
 
-    @PostMapping(value = "/pay",produces = "application/json")
-    public ResponseEntity<RazorpayOrderResponse> payment(@RequestBody RazorpayRequest razorpayRequest){
+    @PostMapping(value = "/pay", produces = "application/json")
+    public ResponseEntity<Payments> payment(@RequestBody PaymentRequest paymentRequest) {
         try {
-            RazorpayOrderResponse orderResponse = paymentsService.makePaymentOrder(razorpayRequest);
+            Payments payments = paymentsService.makeRazorpayOrder(paymentRequest);
 
-            return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(payments, HttpStatus.CREATED);
         } catch (RazorpayException e) {
             throw new RuntimeException(e);
         }
@@ -34,4 +35,19 @@ public class PaymentsController {
     }
 
 
+    @PostMapping("/payments/verify")
+    public ResponseEntity<String> verifyPayment(@RequestBody RazorpayResponse response) {
+        try {
+            Boolean status = paymentsService.verifyPayment(response);
+         } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error verifying payment");
+        }
+        return ResponseEntity.ok("Payment verified successfully!");
+    }
+
 }
+
+
+
+
+
