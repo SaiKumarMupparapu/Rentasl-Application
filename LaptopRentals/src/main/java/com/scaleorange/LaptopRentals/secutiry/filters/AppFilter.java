@@ -42,7 +42,9 @@ public class AppFilter extends OncePerRequestFilter {
         if(username!= null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if(jwtUtil.validateToken(token,username)){
-                System.out.println( userDetails.getAuthorities());
+
+                System.err.println( userDetails.getAuthorities());
+
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -50,6 +52,7 @@ public class AppFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
-         filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request,response);
     }
 }

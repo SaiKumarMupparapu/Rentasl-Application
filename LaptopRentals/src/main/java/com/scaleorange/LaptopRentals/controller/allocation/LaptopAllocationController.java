@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/allocation")
-@PreAuthorize("hasRole('COMPANY')")
+@PreAuthorize("hasAuthority('COMPANY')")
 public class LaptopAllocationController {
 
     @Autowired

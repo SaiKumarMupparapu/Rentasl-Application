@@ -12,9 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static com.scaleorange.LaptopRentals.entity.Roles.COMPANY;
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAuthority;
+
 @RestController
 @RequestMapping("/employee")
-@PreAuthorize("hasRole('COMPANY')")
+@PreAuthorize("hasAuthority('COMPANY')")
 public class EmployeeController {
 
     @Autowired
@@ -22,6 +25,8 @@ public class EmployeeController {
 
     @PostMapping("/register")
     public ResponseEntity<EmployeeResponse> registerEmployee(@RequestBody EmployeeRequest employeeRequest){
+      System.out.println("Inside Employee registration");
+
        return new ResponseEntity<>(employeeService.registerEmployee(employeeRequest), HttpStatus.CREATED);
     }
     @PostMapping("/update")
