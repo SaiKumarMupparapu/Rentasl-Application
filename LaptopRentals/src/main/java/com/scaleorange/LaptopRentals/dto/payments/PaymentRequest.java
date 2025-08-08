@@ -1,5 +1,6 @@
 package com.scaleorange.LaptopRentals.dto.payments;
 
+import com.scaleorange.LaptopRentals.entity.PaymentType;
 import lombok.Data;
 
 //@Data
@@ -12,6 +13,9 @@ import lombok.Data;
 
 @Data
 public class PaymentRequest {
+
     private Integer rentalId;
     private Double amount;
+    private PaymentType paymentType;
+
 }

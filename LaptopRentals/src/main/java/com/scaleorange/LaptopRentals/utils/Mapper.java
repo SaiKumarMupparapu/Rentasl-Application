@@ -3,11 +3,13 @@ package com.scaleorange.LaptopRentals.utils;
 import com.razorpay.Order;
 import com.scaleorange.LaptopRentals.dto.auth.RegisterRequest;
 import com.scaleorange.LaptopRentals.dto.auth.User;
+import com.scaleorange.LaptopRentals.dto.employee.EmployeeRequest;
 import com.scaleorange.LaptopRentals.dto.payments.RazorpayOrderResponse;
 import com.scaleorange.LaptopRentals.dto.products.ItemRequest;
 import com.scaleorange.LaptopRentals.dto.products.ItemResponse;
 import com.scaleorange.LaptopRentals.dto.rental.LaptopRentalRequestDTO;
 import com.scaleorange.LaptopRentals.dto.rental.RentalItemRequestDTO;
+import com.scaleorange.LaptopRentals.entity.Employee;
 import com.scaleorange.LaptopRentals.entity.LaptopRentals;
 import com.scaleorange.LaptopRentals.entity.Laptops;
 import com.scaleorange.LaptopRentals.entity.Organizations;
@@ -48,6 +50,10 @@ public class Mapper {
 
     public static RazorpayOrderResponse convertToPaymentRespo(Order order){
         return mapper.map(order,RazorpayOrderResponse.class);
+    }
+
+    public static Employee convertToEmployee(EmployeeRequest employeeRequest){
+      return  mapper.map(employeeRequest,Employee.class);
     }
 
 }

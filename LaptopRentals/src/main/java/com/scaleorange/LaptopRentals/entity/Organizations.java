@@ -1,5 +1,6 @@
 package com.scaleorange.LaptopRentals.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -47,4 +47,8 @@ public class Organizations {
     @JsonManagedReference(value = "received-rentals")
     @OneToMany(mappedBy = "rentedTo",fetch = FetchType.LAZY)
     private List<LaptopRentals> receivedRentals;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "organization")
+    private List<Employee> employee;
 }

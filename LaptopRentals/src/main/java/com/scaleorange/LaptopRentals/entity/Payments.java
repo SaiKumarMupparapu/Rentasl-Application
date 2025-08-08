@@ -20,6 +20,11 @@ public class Payments {
 
     private Date paymentDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
+
+
     private String status;
 
     private String razorpayOrderId;

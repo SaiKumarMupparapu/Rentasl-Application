@@ -10,10 +10,8 @@ import com.scaleorange.LaptopRentals.service.payments.PaymentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/razor")
@@ -35,19 +33,22 @@ public class PaymentsController {
     }
 
 
+
+
     @PostMapping("/payments/verify")
     public ResponseEntity<String> verifyPayment(@RequestBody RazorpayResponse response) {
         try {
             Boolean status = paymentsService.verifyPayment(response);
-         } catch (Exception e) {
+            if (!status) {
+                return ResponseEntity.status(400).body("Invalid payment signature!");
+            }
+            return ResponseEntity.ok("Payment verified successfully!");
+        } catch (Exception e) {
             return ResponseEntity.status(500).body("Error verifying payment");
         }
-        return ResponseEntity.ok("Payment verified successfully!");
     }
 
 }
-
-
 
 
 

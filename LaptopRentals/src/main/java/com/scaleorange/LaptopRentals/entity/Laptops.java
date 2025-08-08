@@ -36,5 +36,7 @@ public class Laptops {
     @OneToOne(mappedBy = "laptops")
     private RentalsItems items;
 
+    @OneToOne(mappedBy = "laptop")
+    private EmployeeLaptopAllocations laptopAllocations;
 
 }

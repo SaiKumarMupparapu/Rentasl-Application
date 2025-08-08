@@ -5,6 +5,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.scaleorange.LaptopRentals.dto.payments.PaymentRequest;
 import com.scaleorange.LaptopRentals.dto.payments.RazorpayResponse;
+import com.scaleorange.LaptopRentals.entity.PaymentType;
 import com.scaleorange.LaptopRentals.entity.Payments;
 import com.scaleorange.LaptopRentals.repo.PaymentsRepo;
 import com.scaleorange.LaptopRentals.repo.RentalsRepo;
@@ -36,29 +37,28 @@ public class PaymentServiceImpl implements PaymentsService {
 
     @Override
     public Payments makeRazorpayOrder(PaymentRequest request) throws RazorpayException {
+
         RazorpayClient razorpayClient = new RazorpayClient(razorpayKey, razorpaySecret);
 
         JSONObject options = new JSONObject();
         // Razorpay requires paise
         options.put("amount", (int) (request.getAmount() * 100));
         options.put("currency", "INR");
-        options.put("receipt", "order_rcptid_" + request.getRentalId());
+        options.put("receipt", "order_rcptid_" + request.getRentalId() + "_" + request.getPaymentType().name());
+
         Order order = razorpayClient.orders.create(options);
 
-
-        Integer rentalId = (Integer) order.get("rentalId");
-        Double amount = ((Number) order.get("amount")).doubleValue();
-
         Payments payment = new Payments();
-        payment.setAmount(amount);
-        payment.setRazorpayOrderId((String) order.get("id"));
+
+        payment.setAmount(((Number) order.get("amount")).doubleValue());
+        payment.setRazorpayOrderId(order.get("id"));
         payment.setStatus((String) order.get("status"));
         payment.setPaymentDate(new Date());
+        payment.setPaymentType(request.getPaymentType());
+
         payment.setRentals(rentalsRepo.findById(request.getRentalId()).orElseThrow(() -> new RuntimeException("Invalid Rental Id")));
 
-        Payments saved = paymentsRepo.save(payment);
-
-        return saved;
+        return paymentsRepo.save(payment);
 
     }
 
@@ -78,6 +78,8 @@ public class PaymentServiceImpl implements PaymentsService {
             // 2. Update payment info
             payment.setRazorpayPaymentId(response.getRazorpayPaymentId());
             payment.setRazorpaySignature(response.getRazorpaySignature());
+            payment.setPaymentType(PaymentType.FINAL);
+
             payment.setStatus("SUCCESS");
 
             paymentsRepo.save(payment);
