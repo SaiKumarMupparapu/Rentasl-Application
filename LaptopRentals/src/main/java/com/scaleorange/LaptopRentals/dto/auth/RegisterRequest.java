@@ -13,6 +13,4 @@ public class RegisterRequest {
     private Roles role;
     private String address;
 
-
-
 }
