@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    //    @Value("${jwt.secret}")
-   public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+//        @Value("${jwt.secret}")
+        public static String SECRET="5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 //    private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public void validateToken(String token) {
@@ -98,10 +99,11 @@ public class JwtUtil {
         return (extractUsername(token).equals(username) && !isTokenExpired(token));
     }
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role,Integer organizationId) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
+                .claim("organizationId", organizationId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))
                 .signWith(getSignKey(),SignatureAlgorithm.HS256)

@@ -2,12 +2,13 @@ package com.scaleorange.LaptopRentals.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+
 
 @Data
 @Entity
@@ -22,6 +23,7 @@ public class Laptops {
     private String serialNumber;
     private String specs;
     private Double currentRatePerMonth;
+    private Boolean isAvailable;
 
     @UpdateTimestamp
     @Column(insertable = false)
@@ -38,5 +40,20 @@ public class Laptops {
 
     @OneToOne(mappedBy = "laptop")
     private EmployeeLaptopAllocations laptopAllocations;
+
+
+    @Override
+    public String toString() {
+        return "Laptops{" +
+                "laptopId=" + laptopId +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", specs='" + specs + '\'' +
+                ", currentRatePerMonth=" + currentRatePerMonth +
+                ", isAvailable=" + isAvailable +
+                '}';
+    }
+
 
 }

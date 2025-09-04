@@ -71,8 +71,8 @@ public class RentalServiceImpl implements RentalsService{
     }
 
     @Override
-    public List<LaptopRentals> orders() {
-        return rentalsRepo.findAll();
+    public List<LaptopRentals> orders(Integer id) {
+        return rentalsRepo.findByRentedToOrganizationId(id);
     }
 
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Organizations {
     private Integer organizationId;
 
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
     private String phno;

@@ -30,8 +30,10 @@ public class PaymentServiceImpl implements PaymentsService {
 
     @Value("${razorpay.secret}")
     private String razorpaySecret;
+
     @Autowired
     private PaymentsRepo paymentsRepo;
+
     @Autowired
     private RentalsRepo rentalsRepo;
 

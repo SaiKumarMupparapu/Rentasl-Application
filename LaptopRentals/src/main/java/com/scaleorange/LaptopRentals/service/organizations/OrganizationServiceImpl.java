@@ -45,7 +45,7 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Override
     public String generateToken(String email) {
         Organizations user = organizationRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User Not Found"));
-        return jwtUtil.generateToken(user.getEmail(),String.valueOf(user.getRole()));
+        return jwtUtil.generateToken(user.getEmail(),String.valueOf(user.getRole()),user.getOrganizationId());
     }
 
     @Override

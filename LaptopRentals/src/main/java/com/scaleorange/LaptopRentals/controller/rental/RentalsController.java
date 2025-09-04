@@ -33,9 +33,9 @@ public class RentalsController {
         return new ResponseEntity<>(result,HttpStatus.CREATED);
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<LaptopRentals>> listOfOrders(){
-        return new ResponseEntity<>(rentalsService.orders(),HttpStatus.OK);
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<List<LaptopRentals>> listOfOrders(@PathVariable Integer id){
+        return new ResponseEntity<>(rentalsService.orders(id),HttpStatus.OK);
     }
 
 

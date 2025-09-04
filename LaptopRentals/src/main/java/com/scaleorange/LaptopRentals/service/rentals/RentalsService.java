@@ -14,5 +14,5 @@ public interface RentalsService {
 
     public LaptopRentals placeOrder(LaptopRentalRequestDTO rentalsDto);
     public RentalsItems addItemToOrder(RentalItemRequestDTO item);
-    public List<LaptopRentals> orders();
+    public List<LaptopRentals> orders(Integer id);
 }
